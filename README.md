@@ -1,2 +1,2 @@
 # Covid-Integration
-Scripts que realizam o ETL com dados da Covid-19.
+Este repositório foi criado com o intuito de conter scripts utilizados para extrair, transformar e carregar dados sobre a Covid-19.
