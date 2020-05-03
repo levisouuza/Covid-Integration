@@ -1,5 +1,3 @@
-#Download Brasil Covid 19
-
 from selenium import webdriver
 from time import sleep
 import os
