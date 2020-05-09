@@ -37,16 +37,17 @@ def world_covid():
     time.sleep(2)
 
 #Realizando o agendamento do script
-'''schedule.every(1).day.at('14:08').do(world_covid)
+'''schedule.every(1).day.at('07:00').do(world_covid)
+schedule.every(1).day.at('06:00').do(world_covid)
 
 while True:
     schedule.run_pending()
     time.sleep(30)
 
-
 exit()
 '''
 world_covid()
+
 
 
 
