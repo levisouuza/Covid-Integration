@@ -15,7 +15,7 @@ dh_integracao = datetime.now().strftime('%d%m%Y%H%M%S')
 
 class Worldcovid():
 
-    def git(directory, rep_git, url_git, hist):
+    def gitt(directory, rep_git, url_git, hist):
         '''
         Função que Realiza a clonagem de um repositório do github para um repositório local.
 
