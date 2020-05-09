@@ -16,7 +16,7 @@ dh_integracao = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
 
 def world_covid():
     #Clonagem repositório github John Hopkins
-    Worldcovid.git(rep_master, rep_git, url_git, hist)
+    Worldcovid.gitt(rep_master, rep_git, url_git, hist)
 
     time.sleep(2)
 
