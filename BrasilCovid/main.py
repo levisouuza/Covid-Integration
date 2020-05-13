@@ -28,8 +28,8 @@ def main():
     if os.path.exists(r'C:\Users\usuario\Downloads\brazil_covid19_cities.csv'):
         os.remove(r'C:\Users\usuario\Downloads\brazil_covid19_cities.csv')
 
-	if os.path.exists(r'C:\Users\usuario\Downloads\brazil_covid19_macro.csv'):
-		os.remove(r'C:\Users\usuario\Downloads\brazil_covid19_macro.csv')
+    if os.path.exists(r'C:\Users\usuario\Downloads\brazil_covid19_macro.csv'):
+	os.remove(r'C:\Users\usuario\Downloads\brazil_covid19_macro.csv')
 
     sleep(1)
 
