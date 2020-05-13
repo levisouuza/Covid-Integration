@@ -54,7 +54,7 @@ def main():
     print(f'Task finalizada às {now} com sucesso.')
 
 #schedule.every(1).day.at('00:00').do(main)
-schedule.every(1).day.at('08:25').do(main)
+schedule.every(1).day.at('17:45').do(main)
 
 while True:
     schedule.run_pending()
