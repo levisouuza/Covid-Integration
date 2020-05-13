@@ -24,8 +24,12 @@ def main():
     # excluindo o arquivo .zip que fizemos o download e o arquivo extra que também foi extraído.
     if os.path.exists(r'C:\Users\usuario\Downloads\corona-virus-brazil.zip'):
         os.remove(r'C:\Users\usuario\Downloads\corona-virus-brazil.zip')
-    if os.path.exists(r'C:\Users\usuario\Downloads\brazil_covid19_old.csv'):
-        os.remove(r'C:\Users\usuario\Downloads\brazil_covid19_old.csv')
+
+    if os.path.exists(r'C:\Users\usuario\Downloads\brazil_covid19_cities.csv'):
+        os.remove(r'C:\Users\usuario\Downloads\brazil_covid19_cities.csv')
+
+	if os.path.exists(r'C:\Users\usuario\Downloads\brazil_covid19_macro.csv'):
+		os.remove(r'C:\Users\usuario\Downloads\brazil_covid19_macro.csv')
 
     sleep(1)
 
