@@ -18,11 +18,26 @@ def trans_arquivos(dir_initial, arquivos,dir_final):
         dataset.rename(columns={'Lat': 'Latitude', 'Long_': 'Longitude', 'Country_Region': 'Country/Region',
                             'Province_State': 'Province/State', 'Last_Update': 'Last Update'}, inplace=True)
 
-        dataset['Dt_registro'] = i[:10] #creating feature data registro = datas das notificações diárias
-
-        new_file = dataset[['Province/State', 'Country/Region', 'Last Update', 'Confirmed', 'Deaths', 'Recovered', 'Latitude',
-             'Longitude','Dt_registro']]
-
         os.remove(file)
 
-        new_file.to_csv(os.path.join(dir_final, i), index=False)
+        dataset.to_csv(file, index=False)
+
+
+def feature_date(directory):
+    '''
+    Função que irá criar a data das ocorrências dos datasets
+
+    :param directory: diretório em que será realizado a busca dos arquivos
+    '''
+    for arc in os.listdir(directory):
+        file = os.path.join(directory, arc)
+        arq = pd.read_csv(file)
+        dataset = pd.DataFrame(data=arq, columns=arq.columns)
+
+        dataset['Dt_registro'] = arc[:10]  # creating feature data registro = datas das notificações diárias
+
+        new_file = dataset[
+            ['Province/State', 'Country/Region', 'Last Update', 'Confirmed', 'Deaths', 'Recovered', 'Dt_registro']]
+
+        new_file.to_csv(file, index=False)
+
