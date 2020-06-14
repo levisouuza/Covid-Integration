@@ -5,6 +5,8 @@ from datetime import datetime
 from time import sleep
 import psycopg2
 
+dir_inicial = '/home/levis/covidWorld/covid_brasil_full.csv'
+
 conexao = psycopg2.connect(
     host= host,
     database= database,

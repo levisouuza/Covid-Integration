@@ -1,17 +1,25 @@
 
-from Scripts.DataCovidWorld import Extract, Transform
+# __init__.py
+# -*- coding: UTF-8 -*-
+
 import os
 import time
 import re
 from datetime import datetime, timedelta
 import schedule
 import pandas as pd
+import Extract
+import Transform
+import Delete
 
-dir_initial = r'C:\Users\user\Documents\Covid'
+
+dir_inicial = '/home/levis/covidWorld'
 format_dif = list()
 
-dt_ini = datetime.now().date() - timedelta(days=112)
+dt_ini = datetime.now().date() - timedelta(days=3)
 dt = dt_ini.strftime('%m-%d-%Y')
+
+carga_inicial = 'S'
 
 
 def world_covid(directory):
@@ -28,7 +36,7 @@ def world_covid(directory):
     time.sleep(1)
 
     #método responsável por criar requests do repositório John Hopkins
-    Extract.extract_git(directory,dt)
+    Extract.extract_git(directory, dt)
 
     time.sleep(2)
 
@@ -46,12 +54,27 @@ def world_covid(directory):
 
         #método para transformação das features
         Transform.trans_arquivos(directory, format_dif, directory)
+
     time.sleep(1)
 
     #método que irá criar a data das ocorrências dos datasets
-    Transform.feature_date(dir_initial)
+    Transform.feature_date(dir_inicial)
 
-def main():
+    time.sleep(2)
+
+    #criação dataset full
+
+    if carga_inicial == 'S':
+        Transform.load_dataset(dir_inicial, carga_inicial)
+
+    elif carga_inicial == 'N':
+        Transform.load_dataset(dir_inicial, carga_inicial, Extract.gera_datas(dt))
+
+    time.sleep(2)
+
+    Delete.del_arq(dir_inicial)
+
+'''def main():
 
     world_covid(dir_initial)
 
@@ -69,4 +92,6 @@ while True:
 
 main()
 
-exit()
+exit()'''
+
+world_covid(dir_inicial)

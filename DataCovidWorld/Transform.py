@@ -1,8 +1,12 @@
+# __init__.py
+# -*- coding: UTF-8 -*-
 
 import pandas as pd
 import os
+from Extract import gera_datas
+import re
 
-def trans_arquivos(dir_initial, arquivos,dir_final):
+def trans_arquivos(dir_inicial, arquivos,dir_final):
     '''
     Função que transformará os datasets do covid-19 que estão com formatos diferentes para um formato padrão.
 
@@ -11,7 +15,7 @@ def trans_arquivos(dir_initial, arquivos,dir_final):
     :param dir_final:  diretório destino dos arquivos que serão transformados
     '''
     for i in arquivos:
-        file = os.path.join(dir_initial, i)
+        file = os.path.join(dir_inicial, i)
         arq = pd.read_csv(file)
         dataset = pd.DataFrame(data=arq, columns=arq.columns)
 
@@ -41,3 +45,70 @@ def feature_date(directory):
 
         new_file.to_csv(file, index=False)
 
+
+def group_dataset(dir_inicial):
+
+    '''
+    Função agrupar todos os datasets em um dataset master
+
+    :param direct: diretório em que será realizado a busca dos arquivos.
+    :return master: dataframe agrupado
+    '''
+
+    archives = list()
+    dataframes = list()
+
+    for csv in os.listdir(dir_inicial):
+        if not re.search('full', dir_inicial):
+            directory = os.path.join(dir_inicial, csv)
+
+            archives.append(directory)
+
+    for dir in archives:
+        df = pd.read_csv(dir)
+
+        dataframes.append(df)
+
+    master = pd.concat(dataframes, ignore_index=True)
+
+    master.sort_values(['Dt_registro'], ascending=False, inplace=True)
+
+    return master
+
+
+def load_dataset(dir_inicial, carga, dates_incremental=None):
+    '''
+    Resposável por criar arquivo .csv em que será persistido os dados do DataFrame. As cargas podem ser integrais ou incrementais.
+
+    :param direct: diretório em que será realizado a busca dos arquivos.
+    :param carga: tipo de carga do arquivo. S é considerada a carga inicial e N, a carga incremental.
+    :param dt: datas dos registro que estão sendo atualizados e/ou incluídos.
+    '''
+
+    if carga in 'S':
+        #Instanciando o dataframe e criando um arquivo .csv.
+        master = group_dataset(dir_inicial)
+        master.to_csv(os.path.join(dir_inicial,'covid_brasil_full.csv'), index=False)
+
+
+    elif carga in 'N':
+
+        update_dates = dates_incremental
+
+        #vericação da existência do arquivo.
+        if os.path.exists(os.path.join(dir_inicial, 'covid_brasil_full.csv')):
+            full = pd.read_csv(os.path.join(dir_inicial, 'covid_brasil_full.csv'))
+
+            #filtrando as informações que serão atualizadas e realizando a exclusão..
+            for dates in update_dates:
+                remove = full[full['Dt_registro'] == dates]
+                full.drop(remove.index, inplace=True)
+
+        #concatenando os dados do dataset antigo com dataset gerado no momento.
+        dataset_update = pd.concat([full, group_dataset(dir_inicial)], index=False)
+        dataset_update.sort_values(['Dt_registro'], ascending=False, inplace=True)
+
+        #excluíndo arquivo full anterior para criando do arquivo atualizado.
+        os.remove(os.path.join(dir_inicial, 'covid_brasil_full.csv'))
+
+        dataset_update.to_csv(os.path.join(dir_inicial,'covid_brasil_full.csv'), ignore_index=False)

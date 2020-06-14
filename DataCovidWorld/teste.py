@@ -1,0 +1,7 @@
+    province = dataset.iloc[row][0]
+    country = dataset.iloc[row][1]
+    last_update = dataset.iloc[row][2]
+    confirmed = dataset.iloc[row][3]
+    deaths = dataset.iloc[row][4]
+    recovered = dataset.iloc[row][5]
+    dt_registro = dataset.iloc[row][6]

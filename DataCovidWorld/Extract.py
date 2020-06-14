@@ -1,14 +1,18 @@
+# __init__.py
+# -*- coding: UTF-8 -*-
 
 import requests
 import pandas as pd
 import io
 import os
 from datetime import datetime, timedelta
+import time
+
 
 def gera_datas(date_ini):
     '''
     :param date_ini: Data inicial que começará a lista.
-    :return: lista com datas baseado na data inicial e até data atual - 1.
+    :return: lista com datas baseado na data inicial até a data atual - 1.
     '''
     dt_inicial = datetime.strptime(date_ini, '%m-%d-%Y').date()
     dates = list()
@@ -26,7 +30,13 @@ def extract_git(directory,dt_inicial):
     :param dt_inicial: data inicial que criará uma lista de datas, onde cada data será o parâmetro para busca de url.
     :return: arquivos persistidos na pasta desejada
     '''
+
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
     for dt in gera_datas(dt_inicial):
+
+        
         url = f'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{dt}.csv'
 
         req = requests.get(url).content
@@ -36,5 +46,3 @@ def extract_git(directory,dt_inicial):
         dataset = pd.DataFrame(data= data, columns=data.columns)
 
         dataset.to_csv(os.path.join(directory,f"{dt}.csv"), index=False)
-
-
