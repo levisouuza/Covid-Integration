@@ -1,4 +1,4 @@
-# Covid-Integration
+# Covid-Integration-Brazil
 #### Repositório criado com o intuito de conter scripts utilizados para extrair, transformar e carregar dados sobre a pandemia do Coronavírus - Covid-19.
 ##### Sobre os scripts:
 
